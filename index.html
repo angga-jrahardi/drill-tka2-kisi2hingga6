@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drill TKA Matematika - ANGGA JULI RAHARDI, S.Pd.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: { 
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                enableMenu: false
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .option-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        mjx-container { 
+            display: inline-block !important; 
+            margin: 0 4px !important; 
+            vertical-align: middle !important;
+            line-height: 0 !important;
+        }
+        
+        .stimulus-container { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+        .stimulus-container::-webkit-scrollbar { width: 6px; }
+        .stimulus-container::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        #stimulus-body p { margin-bottom: 1.2rem; line-height: 1.7; }
+        
+        @media (max-width: 1024px) {
+            .main-content { grid-template-rows: auto auto; }
+            #stimulus-card { max-height: 40vh; }
+        }
+
+        .name-display { text-transform: none !important; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .animate-shake { animation: shake 0.2s ease-in-out 0s 2; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] min-h-screen text-slate-900">
+
+<div id="app" class="max-w-7xl mx-auto min-h-screen flex flex-col p-4 md:p-6">
+    <!-- Header Section -->
+    <header class="bg-white border border-slate-200 rounded-2xl p-5 mb-6 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-900 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">Σ</div>
+            <div>
+                <h1 class="text-xl font-extrabold text-blue-900 leading-none">DRILL TKA MATEMATIKA</h1>
+                <p class="text-[10px] text-slate-500 font-semibold mt-1 tracking-wide uppercase italic">Berdasar Keputusan BSKAP Nomor 047/H/AN/2025</p>
+            </div>
+        </div>
+        <div class="text-right hidden md:block border-l pl-6 border-slate-100">
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-1">Penyusun Materi</p>
+            <p class="text-sm font-extrabold text-slate-800 name-display">ANGGA JULI RAHARDI, S.Pd.</p>
+        </div>
+    </header>
+
+    <!-- Navigation Area -->
+    <div id="nav-wrapper" class="flex flex-wrap gap-2 justify-center mb-6 overflow-x-auto py-3 bg-white/60 backdrop-blur-md rounded-2xl border border-white/20 shadow-sm px-4"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch main-content">
+        <section id="stimulus-card" class="bg-white border border-slate-200 rounded-3xl shadow-sm flex flex-col overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                    <span class="text-slate-500 font-bold text-[10px] uppercase tracking-widest">Informasi Soal</span>
+                </div>
+                <span id="unit-label" class="text-[10px] bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-extrabold shadow-sm"></span>
+            </div>
+            <div id="stimulus-body" class="p-6 md:p-10 overflow-y-auto stimulus-container flex-1 text-slate-700 text-sm md:text-base"></div>
+            <div id="no-stimulus-msg" class="hidden p-10 flex-1 flex flex-col items-center justify-center text-center text-slate-400">
+                <svg class="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p class="text-xs font-medium uppercase tracking-widest italic">Tidak ada informasi tambahan untuk soal ini.</p>
+            </div>
+        </section>
+
+        <section id="quiz-card" class="bg-white border border-slate-200 rounded-3xl shadow-xl flex flex-col overflow-hidden relative border-t-4 border-t-blue-900">
+            <div id="progress-bar" class="absolute top-0 left-0 h-1 bg-blue-400 transition-all duration-700" style="width: 0%"></div>
+            
+            <div class="p-6 md:p-10 flex-1 flex flex-col">
+                <div id="indicator-badge" class="inline-flex items-center text-[10px] font-bold text-blue-900 mb-6 uppercase tracking-[0.15em] bg-blue-50 px-4 py-1.5 rounded-full w-fit border border-blue-100"></div>
+                
+                <div id="question-box">
+                    <h2 id="question-text" class="text-lg md:text-xl font-bold text-slate-800 mb-10 leading-relaxed"></h2>
+                    <div id="options-container" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                <button id="prev-btn" onclick="changeQuestion(-1)" class="px-6 py-3 text-xs font-black text-slate-400 hover:text-blue-900 disabled:opacity-30 transition-all uppercase tracking-widest">Kembali</button>
+                <div class="flex gap-3">
+                    <button id="finish-btn" onclick="showResults()" class="hidden px-10 py-3 bg-emerald-600 text-white rounded-xl font-bold shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all active:scale-95">SELESAI</button>
+                    <button id="next-btn" onclick="changeQuestion(1)" class="px-10 py-3 bg-blue-900 text-white rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-800 transition-all active:scale-95">LANJUT</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Score Overlay -->
+    <div id="score-overlay" class="fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-[40px] p-8 md:p-14 max-w-lg w-full text-center shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-3 bg-blue-900"></div>
+            <h3 class="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Laporan Performa Drill</h3>
+            <div id="final-grade" class="text-9xl font-black text-blue-900 mb-2 tracking-tighter">0</div>
+            <p class="text-slate-500 font-semibold mb-10">Pencapaian belajar Anda hari ini.</p>
+            <div class="grid grid-cols-2 gap-6 mb-10">
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                    <p class="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Jawaban Benar</p>
+                    <p id="correct-count" class="text-3xl font-black text-emerald-600">0</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                    <p class="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Total Soal</p>
+                    <p id="total-count-display" class="text-3xl font-black text-slate-800">25</p>
+                </div>
+            </div>
+            <button onclick="resetQuiz()" class="w-full py-5 bg-blue-900 text-white rounded-2xl font-black hover:bg-blue-800 transition-all shadow-xl uppercase tracking-widest text-sm">Ulangi Latihan</button>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center py-6 border-t border-slate-100">
+        <p class="text-slate-400 text-[10px] font-bold tracking-[0.3em]">
+            <span class="uppercase">&copy; 2026 DRILL TKA MATEMATIKA • </span>
+            <span class="name-display">ANGGA JULI RAHARDI, S.Pd.</span>
+        </p>
+    </footer>
+</div>
+
+<script>
+const questions = [
+    {
+        unit: "Bilangan & Eksponen", indicator: "Operasi Bilangan (Eksponen)", type: "single", format: "PG",
+        stimulus: "<p>Dalam riset biologi, suatu jenis bakteri membelah diri menjadi dua setiap 20 menit. Jika pada awal penelitian terdapat $8$ bakteri, seorang peneliti ingin memprediksi total populasi setelah jangka waktu tertentu dengan menggunakan konsep eksponen.</p>",
+        question: "Berapakah total populasi bakteri tersebut setelah 1 jam?",
+        options: ["16 Bakteri", "32 Bakteri", "64 Bakteri", "128 Bakteri"], answer: 2
+    },
+    {
+        unit: "Bilangan & Akar", indicator: "Analisis Struktur (Bentuk Akar)", type: "single", format: "PGK-Kategori",
+        stimulus: "<p>Seorang arsitek sedang merancang rangka atap berbentuk segitiga siku-siku sama kaki. Ia memiliki beberapa batang kayu sisa dengan panjang yang dinyatakan dalam bentuk akar. Arsitek harus memastikan bahwa gabungan kayu tersebut cukup untuk menutupi sisi miring yang panjangnya adalah $\\sqrt{200}$ meter.</p>",
+        question: "Berdasarkan data ketersediaan kayu, tentukan kebenaran analisis panjang berikut:",
+        statements: [
+            "Batang kayu sepanjang $\\sqrt{50} + \\sqrt{50}$ setara dengan sisi miring $\\sqrt{200}$", 
+            "Dua batang kayu masing-masing $5\\sqrt{2}$ meter jika disambung akan tepat menutupi $\\sqrt{200}$", 
+            "Sisi miring $\\sqrt{200}$ lebih pendek daripada gabungan kayu $\\sqrt{8} + \\sqrt{18}$"
+        ],
+        answer: ["Benar", "Benar", "Salah"]
+    },
+    {
+        unit: "Bilangan Irasional", indicator: "Aplikasi Fisika (Rasionalisasi)", type: "single", format: "PG",
+        stimulus: "<p>Dalam sebuah eksperimen optik, intensitas cahaya ($I$) yang melewati medium tertentu dinyatakan dengan rumus $I = \\frac{15}{\\sqrt{3}}$ candela. Untuk memasukkan data ini ke dalam tabel logaritma standar yang hanya menerima bilangan rasional pada pembilang, peneliti harus menyederhanakan bentuk tersebut.</p>",
+        question: "Manakah bentuk rasional yang paling tepat agar data tersebut siap diinput ke tabel?",
+        options: ["$3\\sqrt{3}$ candela", "$5\\sqrt{3}$ candela", "$15\\sqrt{3}$ candela", "$5$ candela"], answer: 1
+    },
+    {
+        unit: "Bilangan Bulat", indicator: "Operasi Campuran", type: "single", format: "PGK-MCMA",
+        stimulus: "<p>Perubahan suhu di sebuah laboratorium kimia dipantau secara ketat. Suhu dapat naik (positif) atau turun (negatif). Seorang asisten lab harus memastikan hasil akhir pencampuran suhu sesuai dengan target reaksi yang membutuhkan hasil akhir yang bernilai positif.</p>",
+        question: "Manakah operasi berikut yang hasilnya merupakan bilangan POSITIF? (Pilih semua yang benar)",
+        options: ["$-5 + 12$", "$-3 \\times (-4)$", "$10 : (-2)$", "$(-2)^2$"], answer: [0, 1, 3]
+    },
+    {
+        unit: "Notasi Ilmiah", indicator: "Bentuk Baku", type: "single", format: "PG",
+        stimulus: "<p>Jarak rata-rata antara Bumi dan Bulan adalah sekitar 384.400 kilometer. Dalam publikasi astronomi, nilai-nilai yang sangat besar atau sangat kecil biasanya dituliskan dalam bentuk baku agar lebih ringkas dan mudah dipahami.</p>",
+        question: "Penulisan bentuk baku (notasi ilmiah) untuk 384.400 adalah...",
+        options: ["$3,844 \\times 10^5$", "$38,44 \\times 10^4$", "$3,844 \\times 10^6$", "$0,3844 \\times 10^7$"], answer: 0
+    },
+    {
+        unit: "Estimasi Belanja", indicator: "Estimasi Hasil Perhitungan", type: "single", format: "PG",
+        stimulus: "<p>Ibu membeli 3 kg telur (Rp28.900/kg) dan 2 liter minyak goreng (Rp14.200/liter). Ibu ingin melakukan estimasi cepat agar bisa menyiapkan uang yang cukup saat melakukan pembayaran di kasir.</p>",
+        question: "Estimasi total belanja Ibu jika dibulatkan ke ribuan terdekat adalah...",
+        options: ["Rp110.000", "Rp115.000", "Rp120.000", "Rp100.000"], answer: 1
+    },
+    {
+        unit: "Estimasi Ukuran", indicator: "Estimasi Dimensi", type: "single", format: "PGK-Kategori",
+        stimulus: "<p>Keterampilan estimasi sangat penting dalam kehidupan sehari-hari untuk memvalidasi apakah sebuah informasi atau hasil pengukuran masuk akal secara logika sebelum melakukan pengukuran yang presisi.</p>",
+        question: "Apakah estimasi pengukuran benda-benda di sekitar kita berikut Masuk Akal?",
+        statements: ["Luas layar HP $\\approx 100$ cm²", "Tinggi gedung 10 lantai $\\approx 5$ meter", "Berat buku tulis $\\approx 200$ gram"],
+        answer: ["Benar", "Salah", "Benar"]
+    },
+    {
+        unit: "Estimasi Akar", indicator: "Nilai Akar Mendekati", type: "single", format: "PG",
+        stimulus: "<p>Tanpa menggunakan kalkulator, seorang arsitek perlu menentukan perkiraan panjang kayu penyangga yang besarnya adalah $\\sqrt{75}$ meter untuk memastikan kayu yang dibeli di toko cukup panjang.</p>",
+        question: "Nilai $\\sqrt{75}$ paling mendekati bilangan bulat...",
+        options: ["7", "8", "9", "10"], answer: 2
+    },
+    {
+        unit: "Estimasi Kapasitas", indicator: "Volume & Isi", type: "single", format: "PGK-MCMA",
+        stimulus: "<p>Bak mandi berbentuk kubus dengan panjang rusuk bagian dalam $98$ cm. Pemilik rumah ingin mengetahui kapasitas penampungan air untuk memperkirakan biaya tagihan air bulanan.</p>",
+        question: "Pernyataan estimasi yang tepat terkait bak mandi tersebut adalah: (Pilih semua yang benar)",
+        options: ["Volume mendekati $1$ m³", "Rusuk mendekati $100$ cm", "Kapasitas $\\approx 1.000$ liter", "Volume kurang dari $0,5$ m³"], answer: [0, 1, 2]
+    },
+    {
+        unit: "Estimasi Waktu", indicator: "Laju Perjalanan", type: "single", format: "PG",
+        stimulus: "<p>Jarak kota A-B adalah 118 km. Kecepatan motor rata-rata yang dapat ditempuh oleh pengendara adalah 39 km/jam. Pengendara perlu memperkirakan waktu kedatangan agar tidak terlambat menghadiri acara.</p>",
+        question: "Berapakah perkiraan waktu tempuh perjalanan tersebut?",
+        options: ["2 jam", "3 jam", "4 jam", "5 jam"], answer: 1
+    },
+    {
+        unit: "Pohon Faktor", indicator: "Faktorisasi Prima", type: "single", format: "PG",
+        stimulus: "<p>Sebuah gudang menyimpan 120 kotak barang yang akan disusun ke dalam rak. Untuk menentukan variasi susunan rak yang paling efisien, manajer gudang menggunakan faktorisasi prima dari jumlah total kotak tersebut.</p>",
+        question: "Faktorisasi prima dari 120 adalah...",
+        options: ["$2^3 \\times 3 \\times 5$", "$2^2 \\times 3^2 \\times 5$", "$2^4 \\times 5$", "$2 \\times 3 \\times 5^2$"], answer: 0
+    },
+    {
+        unit: "Analisis Bilangan", indicator: "Sifat Bilangan Prima", type: "single", format: "PGK-Kategori",
+        stimulus: "<p>Bilangan prima adalah dasar dari sistem keamanan enkripsi digital modern. Memahami sifat dasar bilangan prima membantu dalam pengembangan logika matematika dan algoritma komputer dasar.</p>",
+        question: "Analisis kebenaran mengenai sifat-sifat bilangan prima berikut:",
+        statements: ["Semua ganjil adalah prima", "2 adalah satu-satunya prima genap", "91 adalah bilangan prima"],
+        answer: ["Salah", "Benar", "Salah"]
+    },
+    {
+        unit: "Aplikasi KPK", indicator: "KPK dalam Konteks", type: "single", format: "PG",
+        stimulus: "<p>Dua buah lampu dekorasi di sebuah taman menyala secara periodik. Lampu A menyala tiap 8 detik, sementara lampu B menyala tiap 12 detik. Petugas ingin mengetahui saat kedua lampu menyala pada waktu yang sama.</p>",
+        question: "Setiap berapa detik kedua lampu akan menyala bersama?",
+        options: ["16 detik", "24 detik", "36 detik", "48 detik"], answer: 1
+    },
+    {
+        unit: "Faktor Persekutuan", indicator: "FPB dalam Konteks", type: "single", format: "PGK-MCMA",
+        stimulus: "<p>Andi memiliki 24 permen jeruk dan 36 permen cokelat. Ia ingin membagikan permen tersebut kepada teman-temannya dalam kantong plastik kecil. Ia ingin memastikan setiap teman mendapat jumlah jeruk yang sama dan jumlah cokelat yang sama rata.</p>",
+        question: "Pernyataan mana yang benar terkait pembagian permen tersebut? (Pilih semua yang benar)",
+        options: ["Maksimal dibagikan ke 12 anak", "Tiap anak dapat 2 permen jeruk", "Tiap anak dapat 3 permen cokelat", "FPB 24 & 36 adalah 6"], answer: [0, 1, 2]
+    },
+    {
+        unit: "Bilangan Kuadrat", indicator: "Hubungan Faktor & Kuadrat", type: "single", format: "PG",
+        stimulus: "<p>Seorang pengrajin ingin memasang ubin lantai berbentuk persegi besar. Ia memiliki 18 ubin kecil. Agar ubin-ubin tersebut dapat disusun membentuk sebuah persegi sempurna yang padat (tanpa ada ubin yang tersisa atau kurang), ia harus membeli tambahan ubin sebanyak $n$ kali lipat dari jumlah awal.</p>",
+        question: "Berapa nilai pengali $n$ terkecil agar total ubin (18 $\\times$ n) menjadi bilangan kuadrat sempurna?",
+        options: ["2", "3", "6", "9"], answer: 0
+    },
+    {
+        unit: "Peta & Skala", indicator: "Rasio (Skala)", type: "single", format: "PG",
+        stimulus: "<p>Pada sebuah peta navigasi gunung dengan skala $1 : 500.000$, jarak antara basecamp ke puncak gunung terukur sejauh 5 cm. Pendaki perlu mengetahui jarak horizontal sebenarnya untuk manajemen logistik.</p>",
+        question: "Jarak sebenarnya adalah...",
+        options: ["2,5 km", "25 km", "250 km", "2.500 km"], answer: 1
+    },
+    {
+        unit: "Rasio Campuran", indicator: "Rasio Bagian", type: "single", format: "PGK-Kategori",
+        stimulus: "<p>Rasio campuran antara gula dan tepung dalam sebuah resep kue adalah $2 : 5$. Akurasi dalam mengikuti rasio ini sangat menentukan tekstur dan keberhasilan kue yang dibuat.</p>",
+        question: "Jika tepung yang digunakan 500 gram, tentukan kebenaran pernyataan berikut:",
+        statements: ["Gula yang dibutuhkan 200 gram", "Total adonan 700 gram", "Gula > Tepung"],
+        answer: ["Benar", "Benar", "Salah"]
+    },
+    {
+        unit: "Laju Perubahan", indicator: "Debit Air", type: "single", format: "PG",
+        stimulus: "<p>Sebuah selang digunakan untuk mengisi akuarium. Selang tersebut mampu mengalirkan air sebanyak 15 liter dalam waktu 3 menit secara konstan.</p>",
+        question: "Berapa debit air yang mengalir melalui selang tersebut?",
+        options: ["5 liter/menit", "12 liter/menit", "18 liter/menit", "45 liter/menit"], answer: 0
+    },
+    {
+        unit: "Konversi Satuan", indicator: "Rasio Laju (Kecepatan)", type: "single", format: "PGK-MCMA",
+        stimulus: "<p>Kecepatan kendaraan di jalan tol dipantau melalui radar. Sebuah mobil tercatat bergerak dengan kecepatan konstan 72 km/jam.</p>",
+        question: "Satuan kecepatan mana yang setara dengan data tersebut? (Pilih semua yang benar)",
+        options: ["Kecepatan = 20 m/detik", "Jarak 36 km dalam 30 menit", "Jarak 144 km dalam 2 jam", "Kecepatan = 1.200 m/menit"], answer: [0, 1, 2, 3]
+    },
+    {
+        unit: "Rasio Tabungan", indicator: "Bunga & Rasio", type: "single", format: "PG",
+        stimulus: "<p>Seorang nasabah menabung di bank. Saldo awal tabungan adalah Rp1.000.000, dan setelah satu tahun kemudian saldo menjadi Rp1.100.000 karena adanya bunga tahunan.</p>",
+        question: "Rasio bunga terhadap tabungan awal adalah...",
+        options: ["1 : 10", "1 : 11", "10 : 1", "11 : 10"], answer: 0
+    },
+    {
+        unit: "Perbandingan Senilai", indicator: "Aplikasi Senilai", type: "single", format: "PG",
+        stimulus: "<p>Di sebuah pasar buah, harga 4 buah semangka adalah Rp80.000. Harga buah semangka dianggap seragam untuk memudahkan pembeli dalam melakukan transaksi pembelian dalam jumlah banyak.</p>",
+        question: "Berapapa harga yang harus dibayar jika membeli 7 buah semangka?",
+        options: ["Rp120.000", "Rp140.000", "Rp150.000", "Rp160.000"], answer: 1
+    },
+    {
+        unit: "Perbandingan Berbalik", indicator: "Waktu & Pekerja", type: "single", format: "PGK-Kategori",
+        stimulus: "<p>Pembangunan sebuah rumah direncanakan selesai dalam waktu 20 hari jika dikerjakan oleh 12 pekerja. Jika pemilik rumah ingin mempercepat waktu pembangunan, maka jumlah pekerja harus ditambah.</p>",
+        question: "Jika jumlah pekerja menjadi 24 orang, tentukan kebenaran pernyataan berikut:",
+        statements: ["Selesai dalam 10 hari", "Selesai dalam 40 hari", "Ini perbandingan berbalik nilai"],
+        answer: ["Benar", "Salah", "Benar"]
+    },
+    {
+        unit: "Persediaan Pakan", indicator: "Perbandingan Berbalik Nilai", type: "single", format: "PG",
+        stimulus: "<p>Persediaan pakan ternak di sebuah peternakan cukup untuk memberikan makan 30 ekor ayam selama 10 hari. Jika jumlah populasi ayam berkurang, maka jangka waktu ketersediaan pakan akan berubah.</p>",
+        question: "Jika ayam mati sebanyak 5 ekor, pakan tersebut akan habis dalam waktu...",
+        options: ["8 hari", "12 hari", "15 hari", "20 hari"], answer: 1
+    },
+    {
+        unit: "Analisis Grafik", indicator: "Grafik Perbandingan", type: "single", format: "PGK-MCMA",
+        stimulus: "<p>Hubungan antara dua variabel matematika $x$ and $y$ dinyatakan dalam persamaan linear $y = 3x$. Grafik ini sering digunakan untuk memodelkan pertumbuhan linear dalam ekonomi.</p>",
+        question: "Karakteristik grafik yang benar adalah: (Pilih semua yang benar)",
+        options: ["Perbandingan senilai", "x naik, y ikut naik", "Garis lurus melalui (0,0)", "Jika x = 2 maka y = 6"], answer: [0, 1, 2, 3]
+    },
+    {
+        unit: "Kombinasi Laju", indicator: "Perbandingan Campuran", type: "single", format: "PG",
+        stimulus: "<p>Sebuah mesin cetak digital mampu menghasilkan 150 lembar dokumen dalam waktu 5 menit. Mesin tersebut harus bekerja ekstra untuk menyelesaikan pesanan dalam jumlah besar.</p>",
+        question: "Berapa total hasil cetak jika mesin tersebut bekerja selama setengah jam secara terus-menerus?",
+        options: ["600 lembar", "750 lembar", "900 lembar", "1.200 lembar"], answer: 2
+    }
+];
+
+let currentIdx = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let lockedQuestions = new Array(questions.length).fill(false);
+let submitted = false;
+
+function init() {
+    renderNav();
+    showQuestion();
+    document.getElementById('total-count-display').innerText = questions.length;
+}
+
+function renderNav() {
+    const container = document.getElementById('nav-wrapper');
+    container.innerHTML = '';
+    questions.forEach((_, i) => {
+        const dot = document.createElement('button');
+        const isActive = currentIdx === i;
+        const isAnswered = userAnswers[i] !== null;
+        
+        dot.className = `w-9 h-9 rounded-xl text-[10px] font-black transition-all border-2 flex items-center justify-center shrink-0
+            ${isActive ? 'bg-blue-900 border-blue-900 text-white shadow-lg -translate-y-1' : 
+              isAnswered ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-slate-100 text-slate-300'}`;
+        
+        dot.innerText = i + 1;
+        dot.onclick = () => { if(!submitted) { currentIdx = i; showQuestion(); }};
+        container.appendChild(dot);
+    });
+}
+
+function showQuestion() {
+    const q = questions[currentIdx];
+    document.getElementById('unit-label').innerText = q.unit;
+    document.getElementById('indicator-badge').innerText = q.indicator;
+    document.getElementById('progress-bar').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+    
+    const stimulusBody = document.getElementById('stimulus-body');
+    const noStimulusMsg = document.getElementById('no-stimulus-msg');
+
+    if (q.stimulus) {
+        stimulusBody.innerHTML = q.stimulus;
+        stimulusBody.classList.remove('hidden');
+        noStimulusMsg.classList.add('hidden');
+    } else {
+        stimulusBody.classList.add('hidden');
+        noStimulusMsg.classList.remove('hidden');
+    }
+
+    document.getElementById('question-text').innerHTML = q.question;
+    const optContainer = document.getElementById('options-container');
+    optContainer.innerHTML = '';
+
+    const isLocked = lockedQuestions[currentIdx];
+
+    if (q.format === 'PG') {
+        q.options.forEach((opt, i) => {
+            const isSelected = userAnswers[currentIdx] === i;
+            const isCorrect = i === q.answer;
+            
+            let extraClasses = "border-slate-100 hover:border-blue-200 hover:bg-slate-50";
+            let iconClasses = "bg-slate-100 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-900";
+            
+            if (isLocked) {
+                if (isSelected && isCorrect) {
+                    extraClasses = "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-500/20";
+                    iconClasses = "bg-emerald-500 text-white";
+                } else if (isSelected && !isCorrect) {
+                    extraClasses = "border-rose-500 bg-rose-50 animate-shake";
+                    iconClasses = "bg-rose-500 text-white";
+                } else if (isCorrect) {
+                    extraClasses = "border-emerald-200 bg-emerald-50/50 italic";
+                    iconClasses = "bg-emerald-200 text-emerald-700";
+                } else {
+                    extraClasses = "border-slate-100 opacity-40 grayscale-[0.5]";
+                    iconClasses = "bg-slate-100 text-slate-300";
+                }
+            }
+
+            const btn = document.createElement('button');
+            if (isLocked) btn.disabled = true;
+            btn.className = `option-btn w-full text-left p-5 rounded-2xl border-2 flex items-center gap-4 group ${extraClasses}`;
+            btn.innerHTML = `
+                <span class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-colors ${iconClasses}">
+                    ${isLocked && isSelected ? (isCorrect ? '✓' : '✕') : String.fromCharCode(65+i)}
+                </span>
+                <span class="text-sm font-bold ${isSelected ? (isCorrect ? 'text-emerald-700' : 'text-rose-700') : 'text-slate-600'}">${opt}</span>
+            `;
+            btn.onclick = () => { 
+                userAnswers[currentIdx] = i; 
+                lockedQuestions[currentIdx] = true; 
+                showQuestion(); 
+            };
+            optContainer.appendChild(btn);
+        });
+    } else if (q.format === 'PGK-MCMA') {
+        const currentSelection = userAnswers[currentIdx] || [];
+        q.options.forEach((opt, i) => {
+            const isChecked = currentSelection.includes(i);
+            let extraClasses = isChecked ? 'border-blue-900 bg-blue-50/50 shadow-sm' : 'border-slate-100 hover:bg-slate-50';
+            
+            if (isLocked) {
+                const isCorrect = q.answer.includes(i);
+                if (isChecked && isCorrect) extraClasses = "border-emerald-500 bg-emerald-50";
+                else if (isChecked && !isCorrect) extraClasses = "border-rose-500 bg-rose-50 animate-shake";
+                else if (isCorrect) extraClasses = "border-emerald-200 bg-emerald-50/50";
+                else extraClasses = "border-slate-100 opacity-40";
+            }
+
+            const btn = document.createElement('button');
+            if (isLocked) btn.disabled = true;
+            btn.className = `option-btn w-full text-left p-5 rounded-2xl border-2 flex items-center gap-4 ${extraClasses}`;
+            btn.innerHTML = `
+                <div class="w-6 h-6 border-2 rounded-lg flex items-center justify-center transition-all
+                    ${isChecked ? (isLocked ? (q.answer.includes(i) ? 'bg-emerald-500 border-emerald-500' : 'bg-rose-500 border-rose-500') : 'bg-blue-900 border-blue-900') : 'border-slate-300'}">
+                    ${isChecked ? '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' : ''}
+                </div>
+                <span class="text-sm font-bold ${isChecked ? 'text-blue-900' : 'text-slate-600'}">${opt}</span>
+            `;
+            btn.onclick = () => toggleMCMA(i);
+            optContainer.appendChild(btn);
+        });
+        
+        if (!isLocked) {
+            const checkBtn = document.createElement('button');
+            checkBtn.className = "w-full py-4 mt-2 bg-blue-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all";
+            checkBtn.innerText = "Kunci Jawaban";
+            checkBtn.onclick = () => { if(currentSelection.length > 0) { lockedQuestions[currentIdx] = true; showQuestion(); } };
+            optContainer.appendChild(checkBtn);
+        }
+    } else if (q.format === 'PGK-Kategori') {
+        const currentVals = userAnswers[currentIdx] || new Array(q.statements.length).fill(null);
+        q.statements.forEach((stmt, i) => {
+            const val = currentVals[i];
+            const correctVal = q.answer[i];
+            
+            const row = document.createElement('div');
+            row.className = `p-5 rounded-2xl border transition-all ${isLocked ? 'bg-slate-50/50 border-slate-100' : 'bg-slate-50 border-slate-100'}`;
+            
+            let btnBenarClass = val === 'Benar' ? 'bg-blue-900 border-blue-900 text-white shadow-md' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-200';
+            let btnSalahClass = val === 'Salah' ? 'bg-blue-900 border-blue-900 text-white shadow-md' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-200';
+
+            if (isLocked) {
+                if (val === 'Benar') {
+                    btnBenarClass = correctVal === 'Benar' ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-rose-500 border-rose-500 text-white animate-shake';
+                } else if (val === 'Salah') {
+                    btnSalahClass = correctVal === 'Salah' ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-rose-500 border-rose-500 text-white animate-shake';
+                } else {
+                    if (correctVal === 'Benar') btnBenarClass = 'bg-emerald-100 border-emerald-200 text-emerald-700 italic';
+                    if (correctVal === 'Salah') btnSalahClass = 'bg-emerald-100 border-emerald-200 text-emerald-700 italic';
+                }
+            }
+
+            row.innerHTML = `
+                <p class="text-[13px] font-extrabold text-slate-700 leading-relaxed uppercase tracking-tight mb-4">${stmt}</p>
+                <div class="flex gap-3">
+                    <button ${isLocked ? 'disabled' : ''} onclick="setKategori(${i}, 'Benar')" class="flex-1 py-3 rounded-xl text-[10px] font-black border-2 transition-all ${btnBenarClass}">BENAR</button>
+                    <button ${isLocked ? 'disabled' : ''} onclick="setKategori(${i}, 'Salah')" class="flex-1 py-3 rounded-xl text-[10px] font-black border-2 transition-all ${btnSalahClass}">SALAH</button>
+                </div>
+            `;
+            optContainer.appendChild(row);
+        });
+
+        if (!isLocked) {
+            const checkBtn = document.createElement('button');
+            checkBtn.className = "w-full py-4 mt-2 bg-blue-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all";
+            checkBtn.innerText = "Kunci Jawaban";
+            checkBtn.onclick = () => { 
+                if (currentVals.every(v => v !== null)) { lockedQuestions[currentIdx] = true; showQuestion(); } 
+            };
+            optContainer.appendChild(checkBtn);
+        }
+    }
+
+    if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+    }
+
+    document.getElementById('prev-btn').disabled = currentIdx === 0;
+    document.getElementById('next-btn').classList.toggle('hidden', currentIdx === questions.length - 1);
+    document.getElementById('finish-btn').classList.toggle('hidden', currentIdx !== questions.length - 1);
+    renderNav();
+}
+
+function toggleMCMA(val) {
+    if (lockedQuestions[currentIdx] || submitted) return;
+    if (!Array.isArray(userAnswers[currentIdx])) userAnswers[currentIdx] = [];
+    const idx = userAnswers[currentIdx].indexOf(val);
+    if (idx > -1) userAnswers[currentIdx].splice(idx, 1);
+    else userAnswers[currentIdx].push(val);
+    showQuestion();
+}
+
+function setKategori(idx, val) {
+    if (lockedQuestions[currentIdx] || submitted) return;
+    if (!Array.isArray(userAnswers[currentIdx])) userAnswers[currentIdx] = new Array(questions[currentIdx].statements.length).fill(null);
+    userAnswers[currentIdx][idx] = val;
+    showQuestion();
+}
+
+function changeQuestion(step) {
+    currentIdx += step;
+    showQuestion();
+}
+
+function showResults() {
+    submitted = true;
+    let scoreBenar = 0;
+    
+    questions.forEach((q, i) => {
+        const u = userAnswers[i];
+        if (u === null || u === undefined) return;
+
+        if (q.format === 'PG') {
+            if (u === q.answer) scoreBenar++;
+        } 
+        else if (q.format === 'PGK-MCMA') {
+            const correctAnswers = q.answer; 
+            if (Array.isArray(u) && u.length === correctAnswers.length) {
+                const isAllCorrect = u.every(choice => correctAnswers.includes(choice));
+                if (isAllCorrect) scoreBenar++;
+            }
+        } 
+        else if (q.format === 'PGK-Kategori') {
+            if (Array.isArray(u)) {
+                const isComplete = u.every(val => val !== null);
+                if (isComplete) {
+                    const isAllCorrect = q.answer.every((correctVal, idx) => u[idx] === correctVal);
+                    if (isAllCorrect) scoreBenar++;
+                }
+            }
+        }
+    });
+
+    const finalGrade = Math.round((scoreBenar / questions.length) * 100);
+    
+    document.getElementById('correct-count').innerText = scoreBenar;
+    document.getElementById('final-grade').innerText = finalGrade;
+    document.getElementById('score-overlay').classList.remove('hidden');
+}
+
+function resetQuiz() {
+    currentIdx = 0;
+    userAnswers = new Array(questions.length).fill(null);
+    lockedQuestions = new Array(questions.length).fill(false);
+    submitted = false;
+    document.getElementById('score-overlay').classList.add('hidden');
+    showQuestion();
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
